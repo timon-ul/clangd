@@ -158,7 +158,7 @@ jobs:
             "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
             "-DLLVM_ENABLE_PDB=ON"
             "-DLLVM_PARALLEL_LINK_JOBS=1"
-          grpc_version: v1.36.3
+          grpc_version: v1.58.0
           grpc_cmake: >-
             "-DgRPC_MSVC_STATIC_RUNTIME=ON"
           binary_extension: ".exe"
@@ -174,7 +174,7 @@ jobs:
             "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.13"
             "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
             "-Dabsl_DIR=$HOME/grpc-installation/lib/cmake/absl"
-          grpc_version: v1.51.3
+          grpc_version: v1.58.0
           # BoringSSL doesn't support universal binaries when building with ASM.
           grpc_cmake: >-
             "-DOPENSSL_NO_ASM=ON"
@@ -198,7 +198,7 @@ jobs:
             "-DLLVM_STATIC_LINK_CXX_STDLIB=ON"
             "-DLLVM_ENABLE_ZLIB=FORCE_ON"
             "-DCMAKE_PROJECT_INCLUDE=$GITHUB_WORKSPACE/.github/workflows/linux-static-deps.cmake"
-          grpc_version: v1.36.3
+          grpc_version: v1.58.0
           # Using c-ares as a module prevents dynamic linking of unneeded
           # libraries. All other gRPC dependencies can be built from sources.
           grpc_cmake: >-
