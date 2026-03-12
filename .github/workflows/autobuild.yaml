@@ -182,6 +182,7 @@ jobs:
           os: ubuntu-latest
           #container: ubuntu:24.04
           preinstall: >-
+            sudo -s &&
             apt-get update &&
             apt-get install -y ninja-build libz-dev libc-ares-dev wget clang-10
             software-properties-common p7zip-full curl &&
