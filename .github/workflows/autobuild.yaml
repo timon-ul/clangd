@@ -183,7 +183,7 @@ jobs:
           #container: ubuntu:24.04
           preinstall: >-
             sudo apt-get update &&
-            sudo apt-get install -y ninja-build libz-dev libc-ares-dev wget clang-10
+            sudo apt-get install -y ninja-build libz-dev libc-ares-dev wget clang
             software-properties-common p7zip-full curl &&
             sudo add-apt-repository ppa:git-core/ppa &&
             wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add - &&
