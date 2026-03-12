@@ -182,15 +182,14 @@ jobs:
           os: ubuntu-latest
           #container: ubuntu:24.04
           preinstall: >-
-            sudo -s &&
-            apt-get update &&
-            apt-get install -y ninja-build libz-dev libc-ares-dev wget clang-10
+            sudo apt-get update &&
+            sudo apt-get install -y ninja-build libz-dev libc-ares-dev wget clang-10
             software-properties-common p7zip-full curl &&
-            add-apt-repository ppa:git-core/ppa &&
-            wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - &&
-            apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' &&
-            apt-get update &&
-            apt-get install -y git cmake python3.8 python3.8-dev
+            sudo add-apt-repository ppa:git-core/ppa &&
+            wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add - &&
+            sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' &&
+            sudo apt-get update &&
+            sudo apt-get install -y git cmake python3.8 python3.8-dev
           cflags: -O3 -gline-tables-only -DNDEBUG -include $GITHUB_WORKSPACE/.github/workflows/lib_compat.h
           cmake: >-
             "-DCMAKE_C_COMPILER=clang-10"
