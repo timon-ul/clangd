@@ -198,6 +198,7 @@ jobs:
             "-DLLVM_STATIC_LINK_CXX_STDLIB=ON"
             "-DLLVM_ENABLE_ZLIB=FORCE_ON"
             "-DCMAKE_PROJECT_INCLUDE=$GITHUB_WORKSPACE/.github/workflows/linux-static-deps.cmake"
+            "-Dabsl_DIR=$HOME/grpc-installation/lib/cmake/absl"
           grpc_version: v1.51.3
           # Using c-ares as a module prevents dynamic linking of unneeded
           # libraries. All other gRPC dependencies can be built from sources.
