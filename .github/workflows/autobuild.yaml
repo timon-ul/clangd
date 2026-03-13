@@ -180,7 +180,7 @@ jobs:
         #     "-DOPENSSL_NO_ASM=ON"
         - name: linux
           os: ubuntu-latest
-          #container: ubuntu:24.04
+          container: ubuntu:20.04
           preinstall: >-
             sudo apt-get update &&
             sudo apt-get install -y ninja-build libz-dev libc-ares-dev wget clang
@@ -205,7 +205,7 @@ jobs:
           grpc_cmake: >-
             "-DgRPC_CARES_PROVIDER=package"
     runs-on: ${{ matrix.config.os }}
-    #container: ${{ matrix.config.container }}
+    container: ${{ matrix.config.container }}
     steps:
     - name: Clone scripts
       uses: actions/checkout@v2
