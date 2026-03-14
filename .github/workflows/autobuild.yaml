@@ -146,23 +146,47 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - name: windows
-          os: windows-11-arm
-          preinstall: choco install ninja nasm
-          vcvars: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsamd64_arm64.bat
-          cflags: /O2 /DNDEBUG
+        - name: linux
+          os: ubuntu-24.04-arm
+          container: ubuntu:24.04
+          preinstall: >-
+            apt-get update &&
+            apt-get install -y ninja-build libz-dev libc-ares-dev wget clang
+            software-properties-common p7zip-full curl &&
+            add-apt-repository ppa:git-core/ppa &&
+            wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - &&
+            apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' &&
+            apt-get update &&
+            apt-get install -y git cmake python3.8 python3.8-dev
+          cflags: -O3 -gline-tables-only -DNDEBUG -include $GITHUB_WORKSPACE/.github/workflows/lib_compat.h
           cmake: >-
-            "-DCMAKE_C_COMPILER=cl"
-            "-DCMAKE_CXX_COMPILER=cl"
-            "-DLLVM_ENABLE_ZLIB=OFF"
-            "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
-            "-DLLVM_ENABLE_PDB=ON"
-            "-DLLVM_PARALLEL_LINK_JOBS=1"
+            "-DCMAKE_C_COMPILER=clang"
+            "-DCMAKE_CXX_COMPILER=clang++"
+            "-DCMAKE_EXE_LINKER_FLAGS_RELEASE=-static-libgcc -Wl,--compress-debug-sections=zlib"
+            "-DLLVM_STATIC_LINK_CXX_STDLIB=ON"
+            "-DLLVM_ENABLE_ZLIB=FORCE_ON"
+            "-DCMAKE_PROJECT_INCLUDE=$GITHUB_WORKSPACE/.github/workflows/linux-static-deps.cmake"
             "-Dabsl_DIR=$HOME/grpc-installation/lib/cmake/absl"
-          grpc_version: v1.75.0
+          grpc_version: v1.54.0
           grpc_cmake: >-
-            "-DgRPC_MSVC_STATIC_RUNTIME=ON"
-          binary_extension: ".exe"
+            "-DgRPC_CARES_PROVIDER=package"
+        # - name: windows
+        #   os: windows-11-arm
+        #   preinstall: choco install ninja nasm
+        #   vcvars: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsamd64_arm64.bat
+        #   cflags: /O2 /DNDEBUG
+        #   cmake: >-
+        #     "-DCMAKE_C_COMPILER=cl"
+        #     "-DCMAKE_CXX_COMPILER=cl"
+        #     "-DLLVM_ENABLE_ZLIB=OFF"
+        #     "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
+        #     "-DLLVM_ENABLE_PDB=ON"
+        #     "-DLLVM_PARALLEL_LINK_JOBS=1"
+        #     "-Dabsl_DIR=$HOME/grpc-installation/lib/cmake/absl"
+        #   grpc_version: v1.75.0
+        #   grpc_cmake: >-
+        #     "-DgRPC_MSVC_STATIC_RUNTIME=ON"
+        #   binary_extension: ".exe"
         # - name: windows
         #   os: windows-2022
         #   preinstall: choco install ninja nasm
