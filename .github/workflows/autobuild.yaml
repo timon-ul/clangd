@@ -146,8 +146,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - name: windows
-          os: windows-2022
+        - name: windows-arm64
+          os: windows-11-arm
           preinstall: choco install ninja nasm
           vcvars: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat
           cflags: /O2 /DNDEBUG
@@ -159,10 +159,27 @@ jobs:
             "-DLLVM_ENABLE_PDB=ON"
             "-DLLVM_PARALLEL_LINK_JOBS=1"
             "-Dabsl_DIR=$HOME/grpc-installation/lib/cmake/absl"
-          grpc_version: v1.51.3
+          grpc_version: v1.54.0
           grpc_cmake: >-
             "-DgRPC_MSVC_STATIC_RUNTIME=ON"
           binary_extension: ".exe"
+        # - name: windows
+        #   os: windows-2022
+        #   preinstall: choco install ninja nasm
+        #   vcvars: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat
+        #   cflags: /O2 /DNDEBUG
+        #   cmake: >-
+        #     "-DCMAKE_C_COMPILER=cl"
+        #     "-DCMAKE_CXX_COMPILER=cl"
+        #     "-DLLVM_ENABLE_ZLIB=OFF"
+        #     "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
+        #     "-DLLVM_ENABLE_PDB=ON"
+        #     "-DLLVM_PARALLEL_LINK_JOBS=1"
+        #     "-Dabsl_DIR=$HOME/grpc-installation/lib/cmake/absl"
+        #   grpc_version: v1.51.3
+        #   grpc_cmake: >-
+        #     "-DgRPC_MSVC_STATIC_RUNTIME=ON"
+        #   binary_extension: ".exe"
         # - name: mac
         #   os: macos-14
         #   preinstall: brew install ninja zlib p7zip
